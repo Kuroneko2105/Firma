@@ -1,0 +1,31 @@
+﻿@model Firma.Data.Data.Sklep.Rodzaj
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="card bg-body-tertiary shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title">@Model.Nazwa</h2>
+
+                    <hr />
+
+                    <h6>Opis</h6>
+                    <p>@Model.Opis</p>
+
+                    <div class="d-flex gap-2">
+                        <a asp-action="Edit" asp-route-id="@Model.IdRodzaju" class="btn btn-primary d-flex align-items-center gap-2">
+                            <i class="bi bi-pencil"></i> Edytuj
+                        </a>
+                        <a asp-action="Index" class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                            <i class="bi bi-arrow-left"></i> Powrót
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

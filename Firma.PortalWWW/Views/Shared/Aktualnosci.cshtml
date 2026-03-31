@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Firma.Data.Data.CMS.Aktualnosc>
+<div class="container align-content-center">
+    <div class="container text-center">
+        <hr />
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <h4>@item.Tytul</h4>
+                    <a class="btn btn-primary" asp-area="" asp-controller="Aktualnosc" asp-action="Index" asp-route-id="@item.IdAktualnosci">Go</a>
+                </div>
+            }
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card">
+                    <img src="~/content/CA.png" class="card-img-top" width="50" height="200" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card">
+                        <img src="~/content/CA.png" class="card-img-top" width="50" height="200" alt="...">
+                            <div class="card-body">
+                                <p class="card-text">Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card">
+                            <img src="~/content/CA.png" class="card-img-top" width="50" height="200" alt="...">
+                                <div class="card-body">
+                                    <p class="card-text">Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc Tresc</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

@@ -1,0 +1,12 @@
+﻿@model Firma.Data.Data.CMS.Aktualnosc
+@{
+    ViewData["Title"] = Model.LinkTytul;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container align-content-center">
+    <h4>@Model.Tytul</h4>
+    <div>
+        @Model.Tresc
+    </div>
+</div>
+

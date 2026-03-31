@@ -1,0 +1,95 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+.hero {
+    min-height: 65vh !important;
+}
+
+.carousel-inner {
+    height: 60vh;
+}
+
+.carousel-item img {
+    height: 60vh;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* Full-bleed hero carousel */
+.hero-bleed {
+  position: relative;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  width: 100vw;
+}
+/* keep carousel full-bleed but restore standard container gutters so page content keeps padding */
+.hero-bleed .container {
+  max-width: none;
+  /* restore Bootstrap gutter so inner .container content (cards/etc.) doesn't touch edges */
+  padding-left: var(--bs-gutter-x, 1rem);
+  padding-right: var(--bs-gutter-x, 1rem);
+}
+.hero-bleed .carousel-item img {
+  width: 100vw;
+  height: 60vh;
+  object-fit: cover;
+}
+
+/* Make navbar links follow the Bootstrap theme (data-bs-theme) colors */
+.navbar .nav-link {
+  color: var(--bs-body-color);
+}
+.navbar .nav-link:hover, .navbar .nav-link:focus {
+  color: var(--bs-body-color);
+  opacity: 0.85;
+}
+
+/* Make product/card images uniform size (responsive) */
+.card .card-img-top {
+  display: block;
+  width: 100%;
+  height: 380px; /* larger default height for product images on small screens */
+  object-fit: cover; /* crop to fill */
+  object-position: center center;
+}
+
+@media (min-width: 768px) {
+  .card .card-img-top {
+    height: 480px; /* medium screens */
+  }
+}
+
+@media (min-width: 1200px) {
+  .card .card-img-top {
+    height: 560px; /* large screens */
+  }
+}

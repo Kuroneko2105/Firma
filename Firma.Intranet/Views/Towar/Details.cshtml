@@ -1,0 +1,52 @@
+﻿@model Firma.Data.Data.Sklep.Towar
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <div class="card bg-body-tertiary shadow-sm">
+                <div class="row g-0">
+                    <div class="col-12 col-md-4 d-flex align-items-center justify-content-center p-3">
+                        @if (!string.IsNullOrEmpty(Model?.FotoUrl))
+                        {
+                            <img src="~/content/@Model.FotoUrl" alt="@Model.Nazwa" class="img-fluid rounded" style="max-height:420px; object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <div class="bg-secondary text-white d-flex align-items-center justify-content-center rounded" style="width:100%;height:220px;">
+                                <i class="bi bi-image fs-1"></i>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <div class="card-body">
+                            <h2 class="card-title">@Model.Nazwa</h2>
+                            <p class="text-muted mb-2">Kod: <strong>@Model.Kod</strong></p>
+                            <p class="h4 text-primary">@Model.Cena zł</p>
+
+                            <hr />
+
+                            <h6>Opis</h6>
+                            <p>@Model.Opis</p>
+
+                            <h6>Rodzaj</h6>
+                            <p class="mb-3">@Model.Rodzaj?.Nazwa</p>
+
+                            <div class="d-flex gap-2">
+                                <a asp-action="Edit" asp-route-id="@Model.IdTowaru" class="btn btn-primary d-flex align-items-center gap-2">
+                                    <i class="bi bi-pencil"></i> Edytuj
+                                </a>
+                                <a asp-action="Index" class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                                    <i class="bi bi-arrow-left"></i> Powrót
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

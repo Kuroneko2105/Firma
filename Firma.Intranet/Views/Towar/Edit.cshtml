@@ -1,0 +1,69 @@
+﻿@model Firma.Data.Data.Sklep.Towar
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow-sm bg-body-tertiary">
+                <div class="card-body p-4">
+                    <h1 class="h3 mb-3">Edit</h1>
+                    <h4 class="mb-3">Towar</h4>
+
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input type="hidden" asp-for="IdTowaru" />
+
+                        <div class="mb-3">
+                            <label asp-for="Kod" class="form-label"></label>
+                            <input asp-for="Kod" class="form-control form-control-lg" />
+                            <span asp-validation-for="Kod" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Nazwa" class="form-label"></label>
+                            <input asp-for="Nazwa" class="form-control form-control-lg" />
+                            <span asp-validation-for="Nazwa" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Cena" class="form-label"></label>
+                            <input asp-for="Cena" class="form-control form-control-lg" />
+                            <span asp-validation-for="Cena" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="FotoUrl" class="form-label">Wybierz zdjęcie</label>
+                            <input asp-for="FotoUrl" class="form-control" />
+                            <span asp-validation-for="FotoUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Opis" class="form-label"></label>
+                            <textarea asp-for="Opis" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Opis" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="IdRodzaju" class="form-label">Rodzaj</label>
+                            <select asp-for="IdRodzaju" class="form-select" asp-items="ViewBag.IdRodzaju"></select>
+                            <span asp-validation-for="IdRodzaju" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <input type="submit" value="Save" class="btn btn-primary btn-lg" />
+                            <a asp-action="Index" class="btn btn-link align-self-center">Back to List</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

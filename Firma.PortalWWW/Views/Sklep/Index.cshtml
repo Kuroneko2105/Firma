@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Firma.Data.Data.Sklep.Towar>
+@{
+    ViewData["Title"] = "Sklep";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@* grid of product cards: 3 per row on md+ screens *@
+<div class="accordion accordion-flush" id="accordionFlushExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                Filtrowanie
+            </button>
+        </h2>
+        <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <form method="get" asp-action="Index" class="row g-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="rodzajSelect" class="col-form-label">Wybierz rodzaj:</label>
+                    </div>
+                    <div class="col-auto">
+                        <select id="rodzajSelect" name="id" class="form-select" onchange="this.form.submit()">
+                            @if (ViewBag.Rodzaje != null)
+                            {
+                                foreach (var r in (IEnumerable<Firma.Data.Data.Sklep.Rodzaj>)ViewBag.Rodzaje)
+                                {
+                                    var isSelected = (ViewBag.SelectedRodzaj != null && (int)ViewBag.SelectedRodzaj == r.IdRodzaju);
+                                    if (isSelected) {
+                                        <option value="@r.IdRodzaju" selected>@r.Nazwa</option>
+                                    } else {
+                                        <option value="@r.IdRodzaju">@r.Nazwa</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <noscript>
+                            <button type="submit" class="btn btn-primary">Filtruj</button>
+                        </noscript>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row g-3">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-md-4">
+                <div class="card bg-body-tertiary h-100">
+                    <img src="~/content/@item.FotoUrl" class="card-img-top" alt="@item.Nazwa" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@item.Nazwa</h5>
+                        <p class="mb-1 text-muted">@item.Cena</p>
+                        <p class="card-text mb-3 flex-grow-1">@item.Opis</p>
+                        <a asp-controller="Sklep" asp-action="Szczegoly" asp-route-id="@item.IdTowaru" class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 mt-auto">
+                            <i class="bi bi-eye"></i>
+                            Szczegóły
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
