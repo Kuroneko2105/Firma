@@ -1,0 +1,33 @@
+@model Firma.Data.Data.CMS.LayoutLink
+
+@{
+    ViewData["Title"] = "Usuń link layoutu";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card bg-body-tertiary shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="h3 mb-3">Usuń link stopki</h1>
+                    <p>Czy na pewno usunąć link <strong>@Model.Tytul</strong>?</p>
+
+                    <dl class="row">
+                        <dt class="col-sm-3">Adres</dt>
+                        <dd class="col-sm-9">@Model.Url</dd>
+                        <dt class="col-sm-3">Pozycja</dt>
+                        <dd class="col-sm-9">@Model.Pozycja</dd>
+                    </dl>
+
+                    <form asp-action="DeleteLink" asp-route-id="@Model.IdLayoutLink" method="post">
+                        <input type="hidden" asp-for="IdLayoutLink" />
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger">Usuń</button>
+                            <a asp-action="Index" class="btn btn-link">Wróć</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

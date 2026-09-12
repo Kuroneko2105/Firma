@@ -1,0 +1,175 @@
+@model Firma.Intranet.Models.LayoutPanelViewModel
+
+@{
+    ViewData["Title"] = "Layout";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Layout</li>
+    </ol>
+</nav>
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h1 class="h2 mb-1">Layout Portalu</h1>
+        <p class="text-muted mb-0">Logo, domyślny motyw oraz treść widoczna w stopce Portalu.</p>
+    </div>
+    <a asp-action="CreateLink" class="btn btn-success d-inline-flex align-items-center gap-2">
+        <i class="bi bi-plus-lg"></i>
+        Dodaj link
+    </a>
+</div>
+
+@if (TempData["Komunikat"] != null)
+{
+    <div class="alert alert-success">@TempData["Komunikat"]</div>
+}
+
+<div class="card bg-body-tertiary shadow-sm mb-4">
+    <div class="card-body p-4">
+        <h2 class="h4 mb-3">Ustawienia layoutu</h2>
+
+        <form asp-action="EditUstawienia" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="Ustawienia.IdLayoutUstawienia" name="IdLayoutUstawienia" />
+
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label asp-for="Ustawienia.LogoTekst" class="form-label"></label>
+                    <input asp-for="Ustawienia.LogoTekst" name="LogoTekst" class="form-control" />
+                    <span asp-validation-for="Ustawienia.LogoTekst" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="logoPlik" class="form-label">Wgraj obrazek logo</label>
+                    <input id="logoPlik" name="logoPlik" type="file" class="form-control" />
+                    <span asp-validation-for="Ustawienia.LogoUrl" class="text-danger"></span>
+                    <div class="form-text">Po wybraniu pliku zostanie zapisany w katalogu content jako logo.</div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label asp-for="Ustawienia.DomyslnyMotyw" class="form-label"></label>
+                    <select asp-for="Ustawienia.DomyslnyMotyw" name="DomyslnyMotyw" class="form-select">
+                        <option value="light">Jasny</option>
+                        <option value="dark">Ciemny</option>
+                    </select>
+                    <span asp-validation-for="Ustawienia.DomyslnyMotyw" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label asp-for="Ustawienia.KolorPrzyciskow" class="form-label"></label>
+                    <select asp-for="Ustawienia.KolorPrzyciskow" name="KolorPrzyciskow" class="form-select">
+                        <option value="primary">Niebieski</option>
+                        <option value="secondary">Szary</option>
+                        <option value="success">Zielony</option>
+                        <option value="danger">Czerwony</option>
+                        <option value="warning">Żółty</option>
+                        <option value="info">Błękitny</option>
+                        <option value="dark">Ciemny</option>
+                    </select>
+                    <span asp-validation-for="Ustawienia.KolorPrzyciskow" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label asp-for="Ustawienia.WielkoscCzcionki" class="form-label"></label>
+                    <select asp-for="Ustawienia.WielkoscCzcionki" name="WielkoscCzcionki" class="form-select">
+                        <option value="small">Mała</option>
+                        <option value="normal">Normalna</option>
+                        <option value="large">Duża</option>
+                    </select>
+                    <span asp-validation-for="Ustawienia.WielkoscCzcionki" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label asp-for="Ustawienia.KolorCzcionki" class="form-label"></label>
+                    <select asp-for="Ustawienia.KolorCzcionki" name="KolorCzcionki" class="form-select">
+                        <option value="body">Domyślny</option>
+                        <option value="secondary">Szary</option>
+                        <option value="primary">Niebieski</option>
+                        <option value="success">Zielony</option>
+                        <option value="danger">Czerwony</option>
+                        <option value="dark">Ciemny</option>
+                    </select>
+                    <span asp-validation-for="Ustawienia.KolorCzcionki" class="text-danger"></span>
+                </div>
+                <div class="col-12">
+                    <label asp-for="Ustawienia.OpisStopki" class="form-label"></label>
+                    <textarea asp-for="Ustawienia.OpisStopki" name="OpisStopki" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Ustawienia.OpisStopki" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label asp-for="Ustawienia.Telefon" class="form-label"></label>
+                    <input asp-for="Ustawienia.Telefon" name="Telefon" class="form-control" />
+                    <span asp-validation-for="Ustawienia.Telefon" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label asp-for="Ustawienia.Email" class="form-label"></label>
+                    <input asp-for="Ustawienia.Email" name="Email" class="form-control" />
+                    <span asp-validation-for="Ustawienia.Email" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label asp-for="Ustawienia.Adres" class="form-label"></label>
+                    <input asp-for="Ustawienia.Adres" name="Adres" class="form-control" />
+                    <span asp-validation-for="Ustawienia.Adres" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="Ustawienia.Copyright" class="form-label"></label>
+                    <input asp-for="Ustawienia.Copyright" name="Copyright" class="form-control" />
+                    <span asp-validation-for="Ustawienia.Copyright" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="Ustawienia.TekstKoncowy" class="form-label"></label>
+                    <input asp-for="Ustawienia.TekstKoncowy" name="TekstKoncowy" class="form-control" />
+                    <span asp-validation-for="Ustawienia.TekstKoncowy" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary d-inline-flex align-items-center gap-2 mt-4">
+                <i class="bi bi-save"></i>
+                Zapisz layout
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="card bg-body-tertiary shadow-sm">
+    <div class="card-body">
+        <h2 class="h4 mb-3">Dodatkowe linki stopki</h2>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Tytuł</th>
+                        <th>Adres</th>
+                        <th>Pozycja</th>
+                        <th>Aktywny</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var link in Model.Linki)
+                    {
+                        <tr>
+                            <td>@link.Tytul</td>
+                            <td><a href="@link.Url" target="_blank" rel="noopener noreferrer">@link.Url</a></td>
+                            <td>@link.Pozycja</td>
+                            <td>@(link.CzyAktywny ? "Tak" : "Nie")</td>
+                            <td class="text-end">
+                                <div class="btn-group" role="group" aria-label="Akcje">
+                                    <a asp-action="EditLink" asp-route-id="@link.IdLayoutLink" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-action="DeleteLink" asp-route-id="@link.IdLayoutLink" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

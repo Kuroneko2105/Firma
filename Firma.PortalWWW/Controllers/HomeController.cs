@@ -30,6 +30,11 @@ namespace Firma.PortalWWW.Controllers
            //     ).Take(3).ToList(); //
             ViewBag.ModelAktualnosci = await _context.Aktualnosc.OrderByDescending(a => a.Pozycja)
                 .Take(3).ToListAsync();
+            ViewBag.ModelOgloszenia = await _context.Ogloszenie
+                .Where(o => o.ZdjecieUrl != null && o.ZdjecieUrl != "")
+                .OrderByDescending(o => o.IdOgloszenia)
+                .Take(5)
+                .ToListAsync();
             if (id == null) id = 1; //zatem przy pierwszym...
             var item=await _context.Strona.FindAsync(id);//z bazy danych, z tabli strona szukamy strony o danym id
             return View(item);//do widoku przekaz.....

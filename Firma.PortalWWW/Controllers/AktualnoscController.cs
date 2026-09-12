@@ -11,17 +11,24 @@ namespace Firma.PortalWWW.Controllers
         {
             _context = context;
         }
-        //to jest fukcja, ktora wystawia dane widkowi Index
-        public async Task<IActionResult> Index(int id)//zaw...
-            //w id siedzi id kliknietej aktualnosci 
+        // Wyświetla listę aktualności
+        public async Task<IActionResult> Index()
         {
-            //to poprawimy, bo mamy powtarzalnosc kodu 
+            ViewBag.ModelStrony = await _context.Strona.OrderBy(s => s.Pozycja).ToListAsync();
+            var items = await _context.Aktualnosc.OrderByDescending(a => a.Pozycja).ToListAsync();
+            // Explicitly render the List view (Index.cshtml expects a single Aktualnosc)
+            return View("List", items);
+        }
+
+        // Wyświetla szczegóły pojedynczej aktualności
+        public async Task<IActionResult> Details(int id)
+        {
             ViewBag.ModelStrony = await _context.Strona.OrderBy(s => s.Pozycja).ToListAsync();
             ViewBag.ModelAktualnosci = await _context.Aktualnosc.OrderByDescending(a => a.Pozycja)
                 .Take(3).ToListAsync();
             var item = await _context.Aktualnosc.FirstOrDefaultAsync(a => a.IdAktualnosci == id);
-            if (item == null) return NotFound();    
-            return View(item);//do widoku przek....
+            if (item == null) return NotFound();
+            return View(item);
         }
     }
 }

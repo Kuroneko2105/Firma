@@ -3,7 +3,6 @@
     ViewData["Title"] = "Sklep";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@* grid of product cards: 3 per row on md+ screens *@
 <div class="accordion accordion-flush" id="accordionFlushExample">
     <div class="accordion-item">
         <h2 class="accordion-header">
@@ -24,9 +23,12 @@
                                 foreach (var r in (IEnumerable<Firma.Data.Data.Sklep.Rodzaj>)ViewBag.Rodzaje)
                                 {
                                     var isSelected = (ViewBag.SelectedRodzaj != null && (int)ViewBag.SelectedRodzaj == r.IdRodzaju);
-                                    if (isSelected) {
+                                    if (isSelected)
+                                    {
                                         <option value="@r.IdRodzaju" selected>@r.Nazwa</option>
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         <option value="@r.IdRodzaju">@r.Nazwa</option>
                                     }
                                 }
@@ -52,12 +54,21 @@
                     <img src="~/content/@item.FotoUrl" class="card-img-top" alt="@item.Nazwa" />
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@item.Nazwa</h5>
-                        <p class="mb-1 text-muted">@item.Cena</p>
+                        <p class="mb-1 text-muted">@string.Format("{0:F2}", item.Cena) zł</p>
                         <p class="card-text mb-3 flex-grow-1">@item.Opis</p>
-                        <a asp-controller="Sklep" asp-action="Szczegoly" asp-route-id="@item.IdTowaru" class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 mt-auto">
-                            <i class="bi bi-eye"></i>
-                            Szczegóły
-                        </a>
+                        <div class="d-grid gap-2 mt-auto">
+                            <form asp-controller="Koszyk" asp-action="Dodaj" method="post">
+                                <input type="hidden" name="id" value="@item.IdTowaru" />
+                                <button type="submit" class="btn btn-success btn-lg d-flex align-items-center justify-content-center gap-2 w-100">
+                                    <i class="bi bi-cart-plus"></i>
+                                    Dodaj do koszyka
+                                </button>
+                            </form>
+                            <a asp-controller="Sklep" asp-action="Szczegoly" asp-route-id="@item.IdTowaru" class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-eye"></i>
+                                Szczegóły
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -17,6 +17,7 @@ namespace Firma.PortalWWW.Controllers
         {
             //na....
             ViewBag.Rodzaje = await _context.Rodzaj.ToListAsync();
+            ViewBag.ModelStrony = await _context.Strona.OrderBy(s => s.Pozycja).ToListAsync();
             if (id == null) id = 1; //przy pierwszym wejsciu do sklepu maja się pojawic towary pierwszego rodzaju (PD: promowane)
             ViewBag.SelectedRodzaj = id;
             //z bazy danych pobieram towary danego rodzaju o danym kliknietym id
@@ -30,7 +31,12 @@ namespace Firma.PortalWWW.Controllers
         {
             //szczegoly towaru beda zgodne z layout sklep, zatem potrzeba rodzajow 
             ViewBag.Rodzaje = await _context.Rodzaj.ToListAsync();
+            ViewBag.ModelStrony = await _context.Strona.OrderBy(s => s.Pozycja).ToListAsync();
             ViewBag.SelectedRodzaj = null;
+            ViewBag.Opinie = await _context.OpiniaKlienta
+                .Where(o => o.TowarId == id && o.CzyZatwierdzona)
+                .OrderByDescending(o => o.DataDodania)
+                .ToListAsync();
             //z bazy danych pobieram towar o danym id
             var item=await _context.Towar.Where(t=>t.IdTowaru==id).FirstOrDefaultAsync();
             //ten towar przekazuje do view

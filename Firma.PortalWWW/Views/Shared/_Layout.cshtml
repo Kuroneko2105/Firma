@@ -1,5 +1,35 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+@using Microsoft.EntityFrameworkCore
+@inject Firma.Data.Data.FirmaContext LayoutContext
+@{
+    var ustawieniaLayoutu = await LayoutContext.LayoutUstawienia.FirstOrDefaultAsync() ?? new Firma.Data.Data.CMS.LayoutUstawienia();
+    var logoUrl = ustawieniaLayoutu.LogoUrl ?? "";
+    var logoSrc = logoUrl.StartsWith("http://", System.StringComparison.OrdinalIgnoreCase)
+        || logoUrl.StartsWith("https://", System.StringComparison.OrdinalIgnoreCase)
+        || logoUrl.StartsWith("/")
+            ? logoUrl
+            : Url.Content($"~/content/{logoUrl.TrimStart('~', '/')}");
+    var wybranaWielkoscCzcionki = string.IsNullOrWhiteSpace(ustawieniaLayoutu.WielkoscCzcionki)
+        ? "normal"
+        : ustawieniaLayoutu.WielkoscCzcionki;
+    var wybranyKolorCzcionki = string.IsNullOrWhiteSpace(ustawieniaLayoutu.KolorCzcionki)
+        ? "body"
+        : ustawieniaLayoutu.KolorCzcionki;
+    var wybranyKolorPrzyciskow = string.IsNullOrWhiteSpace(ustawieniaLayoutu.KolorPrzyciskow)
+        ? "primary"
+        : ustawieniaLayoutu.KolorPrzyciskow;
+    var fontSize = wybranaWielkoscCzcionki switch
+    {
+        "small" => "0.95rem",
+        "large" => "1.1rem",
+        _ => "1rem"
+    };
+    var fontColor = wybranyKolorCzcionki == "body"
+        ? "var(--bs-body-color)"
+        : $"var(--bs-{wybranyKolorCzcionki})";
+    var buttonColor = wybranyKolorPrzyciskow;
+}
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,23 +39,68 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/test.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+        body.portal-layout-custom {
+            font-size: @fontSize;
+            color: @fontColor;
+        }
+
+        body.portal-layout-custom .btn-primary,
+        body.portal-layout-custom .btn-success {
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bs-@buttonColor);
+            --bs-btn-border-color: var(--bs-@buttonColor);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: color-mix(in srgb, var(--bs-@buttonColor) 85%, black);
+            --bs-btn-hover-border-color: color-mix(in srgb, var(--bs-@buttonColor) 80%, black);
+            --bs-btn-active-color: var(--bs-white);
+            --bs-btn-active-bg: color-mix(in srgb, var(--bs-@buttonColor) 80%, black);
+            --bs-btn-active-border-color: color-mix(in srgb, var(--bs-@buttonColor) 75%, black);
+        }
+
+        body.portal-layout-custom .btn-outline-primary,
+        body.portal-layout-custom .btn-outline-secondary {
+            --bs-btn-color: var(--bs-@buttonColor);
+            --bs-btn-border-color: var(--bs-@buttonColor);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: var(--bs-@buttonColor);
+            --bs-btn-hover-border-color: var(--bs-@buttonColor);
+            --bs-btn-active-color: var(--bs-white);
+            --bs-btn-active-bg: var(--bs-@buttonColor);
+            --bs-btn-active-border-color: var(--bs-@buttonColor);
+        }
+    </style>
 </head>
-<body>
+<body class="portal-layout-custom" data-default-theme="@ustawieniaLayoutu.DomyslnyMotyw">
+    @{
+        var liczbaProduktowWKoszyku = Context.Session.GetInt32("KoszykIlosc") ?? 0;
+    }
     <header>
         <nav class="navbar navbar-expand-sm bg-body">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Logo</a>
+                <a class="navbar-brand d-inline-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
+                    @if (!string.IsNullOrWhiteSpace(ustawieniaLayoutu.LogoUrl))
+                    {
+                        <img src="@logoSrc" alt="@ustawieniaLayoutu.LogoTekst" style="height:32px; width:auto;" />
+                    }
+                    <span>@ustawieniaLayoutu.LogoTekst</span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
+                        @if (ViewBag.ModelStrony != null)
+                        {
+                            @await Html.PartialAsync("Odnosniki", (IEnumerable<Firma.Data.Data.CMS.Strona>)ViewBag.ModelStrony)
+                        }
                         <li class="nav-item">
-                            @if (ViewBag.ModelStrony != null)
-                            {
-                                @await Html.PartialAsync("Odnosniki", (IEnumerable<Firma.Data.Data.CMS.Strona>)ViewBag.ModelStrony)
-                            }
+                            <a asp-controller="Koszyk" asp-action="Index" class="btn btn-outline-primary d-flex align-items-center gap-2 me-2">
+                                <i class="bi bi-cart"></i>
+                                Koszyk
+                                <span class="badge text-bg-primary">@liczbaProduktowWKoszyku</span>
+                            </a>
                         </li>
                         <li>
                             <button id="darkModeToggle" class="btn btn-outline-secondary d-flex align-items-center gap-2">
@@ -38,78 +113,13 @@
             </div>
         </nav>
     </header>
-    <div class="hero hero-bleed pt-3 d-flex align-items-center justify-content-center">
+    <div class="hero hero-bleed">
         <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="mt-5 pt-5 border-top bg-body">
-        <div class="container">
-
-            <div class="row g-4 text-center text-md-start">
-
-                <div class="col-12 col-md-4">
-                    <h5 class="fw-bold">O systemie</h5>
-
-                    <p class="text-muted small">
-                        Panel portalowy do zarządzania treścią strony.
-                        Dodawanie produktów, aktualności i edycja podstron.
-                    </p>
-
-                    <p class="text-muted small mb-0">
-                        Wersja: <strong>v1.0</strong>
-                    </p>
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <h5 class="fw-bold">Kontakt</h5>
-
-                    <ul class="list-unstyled text-muted small">
-                        <li class="mb-2">
-                            <i class="bi bi-telephone me-2"></i>000-000-000
-                        </li>
-                        <li class="mb-2">
-                            <i class="bi bi-envelope me-2"></i>kontakt@firma.pl
-                        </li>
-                        <li>
-                            <i class="bi bi-building me-2"></i>Lipinki Łużyckie, Łączna 43
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <h5 class="fw-bold">Szybkie linki</h5>
-
-                    <div class="d-flex justify-content-center justify-content-md-start gap-3 mb-3 fs-5">
-                        <a href="#" class="text-muted"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-muted"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-muted"><i class="bi bi-tiktok"></i></a>
-                    </div>
-
-                    <div class="d-flex flex-column flex-md-row gap-2 small">
-                        <a asp-controller="Home" asp-action="Index" class="text-muted text-decoration-none">Home</a>
-                        <a asp-controller="Strona" asp-action="Index" class="text-muted text-decoration-none">Strony</a>
-                        <a asp-controller="Towar" asp-action="Index" class="text-muted text-decoration-none">Towary</a>
-                    </div>
-                </div>
-
-            </div>
-
-            <hr class="my-4" />
-
-            <div class="row text-center small text-muted">
-                <div class="col-12 col-md-6">
-                    &copy; 2026 - Firma.PortalWWW
-                </div>
-                <div class="col-12 col-md-6">
-                    <a asp-page="/Privacy" class="text-muted text-decoration-none me-3">Polityka prywatności</a>
-                    Portal WWW
-                </div>
-            </div>
-
-        </div>
-    </footer>
+    @await Component.InvokeAsync("Layout")
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

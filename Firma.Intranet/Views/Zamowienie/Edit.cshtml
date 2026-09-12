@@ -1,0 +1,148 @@
+@model Firma.Data.Data.Sklep.Zamowienie
+
+@{
+    ViewData["Title"] = "Edycja zamówienia";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index">Zamówienia</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edycja</li>
+    </ol>
+</nav>
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h2 class="mb-1">Edycja zamówienia #@Model.IdZamowienie</h2>
+        <p class="text-muted mb-0">@Model.Imie @Model.Nazwisko, @Model.Email</p>
+    </div>
+    <a asp-action="Details" asp-route-id="@Model.IdZamowienie" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
+        <i class="bi bi-eye"></i>
+        Szczegóły
+    </a>
+</div>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+    <input type="hidden" asp-for="IdZamowienie" />
+
+    <div class="row g-4">
+        <div class="col-12 col-xl-7">
+            <div class="card bg-body-tertiary shadow h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-person-lines-fill text-primary fs-4"></i>
+                        <h4 class="mb-0">Dane klienta</h4>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Imie" class="form-label"></label>
+                            <input asp-for="Imie" class="form-control form-control-lg" />
+                            <span asp-validation-for="Imie" class="text-danger"></span>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Nazwisko" class="form-label"></label>
+                            <input asp-for="Nazwisko" class="form-control form-control-lg" />
+                            <span asp-validation-for="Nazwisko" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control form-control-lg" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-5">
+            <div class="card bg-body-tertiary shadow h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-receipt text-primary fs-4"></i>
+                        <h4 class="mb-0">Podsumowanie</h4>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Suma" class="form-label"></label>
+                            <div class="input-group input-group-lg">
+                                <input asp-for="Suma" class="form-control" />
+                                <span class="input-group-text">zł</span>
+                            </div>
+                            <span asp-validation-for="Suma" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Status" class="form-label"></label>
+                            <select asp-for="Status" class="form-select form-select-lg">
+                                <option value="Nowe">Nowe</option>
+                                <option value="W realizacji">W realizacji</option>
+                                <option value="Opłacone">Opłacone</option>
+                                <option value="Wysłane">Wysłane</option>
+                                <option value="Zakończone">Zakończone</option>
+                                <option value="Anulowane">Anulowane</option>
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="DataZamowienia" class="form-label"></label>
+                            <input asp-for="DataZamowienia" class="form-control form-control-lg" />
+                            <span asp-validation-for="DataZamowienia" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card bg-body-tertiary shadow">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-geo-alt text-primary fs-4"></i>
+                        <h4 class="mb-0">Adres dostawy</h4>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Miejscowosc" class="form-label"></label>
+                            <input asp-for="Miejscowosc" class="form-control form-control-lg" />
+                            <span asp-validation-for="Miejscowosc" class="text-danger"></span>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label asp-for="KodPocztowy" class="form-label"></label>
+                            <input asp-for="KodPocztowy" class="form-control form-control-lg" />
+                            <span asp-validation-for="KodPocztowy" class="text-danger"></span>
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <label asp-for="Ulica" class="form-label"></label>
+                            <input asp-for="Ulica" class="form-control form-control-lg" />
+                            <span asp-validation-for="Ulica" class="text-danger"></span>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label asp-for="NumerBudynku" class="form-label"></label>
+                            <input asp-for="NumerBudynku" class="form-control form-control-lg" />
+                            <span asp-validation-for="NumerBudynku" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 mt-4">
+        <a asp-action="Index" class="btn btn-outline-secondary btn-lg d-inline-flex align-items-center justify-content-center gap-2">
+            <i class="bi bi-arrow-left"></i>
+            Wróć do listy
+        </a>
+        <button type="submit" class="btn btn-primary btn-lg d-inline-flex align-items-center justify-content-center gap-2">
+            <i class="bi bi-check-lg"></i>
+            Zapisz zmiany
+        </button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

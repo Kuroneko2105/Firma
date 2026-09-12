@@ -1,0 +1,111 @@
+@model Firma.PortalWWW.Models.ZamowienieKoszykViewModel
+@{
+    ViewData["Title"] = "Zamówienie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Sklep" asp-action="Index">Sklep</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Koszyk" asp-action="Index">Koszyk</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Zamówienie</li>
+        </ol>
+    </nav>
+
+    <h1 class="h2 mb-4">Dane do zamówienia</h1>
+
+    <form asp-action="Zamowienie" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-4">
+            <div class="col-12 col-lg-7">
+                <div class="card bg-body-tertiary shadow-sm">
+                    <div class="card-body">
+                        <h2 class="h5 mb-3">Dane klienta</h2>
+
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label asp-for="Imie" class="form-label"></label>
+                                <input asp-for="Imie" class="form-control" />
+                                <span asp-validation-for="Imie" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label asp-for="Nazwisko" class="form-label"></label>
+                                <input asp-for="Nazwisko" class="form-control" />
+                                <span asp-validation-for="Nazwisko" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label asp-for="Miejscowosc" class="form-label"></label>
+                                <input asp-for="Miejscowosc" class="form-control" />
+                                <span asp-validation-for="Miejscowosc" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label asp-for="KodPocztowy" class="form-label"></label>
+                                <input asp-for="KodPocztowy" class="form-control" />
+                                <span asp-validation-for="KodPocztowy" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-md-8">
+                                <label asp-for="Ulica" class="form-label"></label>
+                                <input asp-for="Ulica" class="form-control" />
+                                <span asp-validation-for="Ulica" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label asp-for="NumerBudynku" class="form-label"></label>
+                                <input asp-for="NumerBudynku" class="form-control" />
+                                <span asp-validation-for="NumerBudynku" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="MetodaPlatnosci" class="form-label"></label>
+                                <select asp-for="MetodaPlatnosci" class="form-select">
+                                    <option value="Przelew">Przelew</option>
+                                    <option value="Karta">Karta</option>
+                                    <option value="Gotówka przy odbiorze">Gotówka przy odbiorze</option>
+                                </select>
+                                <span asp-validation-for="MetodaPlatnosci" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-5">
+                <div class="card bg-body-tertiary shadow-sm">
+                    <div class="card-body">
+                        <h2 class="h5 mb-3">Podsumowanie</h2>
+
+                        @foreach (var item in Model.Koszyk)
+                        {
+                            <div class="d-flex justify-content-between gap-3 border-bottom py-2">
+                                <div>
+                                    <div class="fw-semibold">@item.Nazwa</div>
+                                    <div class="text-muted small">@item.Ilosc x @item.Cena.ToString("0.00") zł</div>
+                                </div>
+                                <div class="fw-semibold text-end">@item.Wartosc.ToString("0.00") zł</div>
+                            </div>
+                        }
+
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="text-muted">Razem</span>
+                            <span class="h4 text-primary mb-0">@Model.Suma.ToString("0.00") zł</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100 d-flex align-items-center justify-content-center gap-2 mt-4">
+                            <i class="bi bi-check2-circle"></i>
+                            Potwierdź zamówienie
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

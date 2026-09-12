@@ -1,0 +1,131 @@
+@model Firma.Data.Data.Sklep.Zamowienie
+@{
+    ViewData["Title"] = "Potwierdzenie zamówienia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var platnosc = Model.Platnosci.FirstOrDefault();
+}
+
+<div class="container py-4">
+    <div class="card bg-body-tertiary shadow-sm">
+        <div class="card-body p-4">
+            <div class="text-center mb-4">
+                <i class="bi bi-check-circle fs-1 text-success"></i>
+                <h1 class="h2 mt-3">Zamówienie zostało zapisane</h1>
+                <p class="text-muted mb-0">Numer zamówienia: <strong>#@Model.IdZamowienie</strong></p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-12 col-lg-7">
+                    <h2 class="h5">Pozycje zamówienia</h2>
+                    <div class="table-responsive">
+                        <table class="table table-striped align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Towar</th>
+                                    <th>Ilość</th>
+                                    <th>Cena</th>
+                                    <th>Wartość</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var pozycja in Model.Pozycje)
+                                {
+                                    <tr>
+                                        <td>@pozycja.Towar?.Nazwa</td>
+                                        <td>@pozycja.Ilosc</td>
+                                        <td>@pozycja.Cena.ToString("0.00") zł</td>
+                                        <td>@((pozycja.Cena * pozycja.Ilosc).ToString("0.00")) zł</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-5">
+                    <h2 class="h5">Płatność</h2>
+                    <dl class="row">
+                        <dt class="col-5">Kwota</dt>
+                        <dd class="col-7">@Model.Suma.ToString("0.00") zł</dd>
+                        <dt class="col-5">Metoda</dt>
+                        <dd class="col-7">@platnosc?.Metoda</dd>
+                        <dt class="col-5">Status</dt>
+                        <dd class="col-7"><span class="badge bg-secondary">@platnosc?.Status</span></dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center gap-2 mt-4">
+                <a asp-controller="Sklep" asp-action="Index" class="btn btn-primary">Wróć do sklepu</a>
+                <a asp-controller="Koszyk" asp-action="Faktura" asp-route-id="@Model.IdZamowienie" class="btn btn-success d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                    Pobierz fakturę PDF
+                </a>
+                <a asp-controller="Koszyk" asp-action="Index" class="btn btn-outline-secondary">Koszyk</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-body-tertiary shadow-sm mt-4">
+        <div class="card-body p-4">
+            <h2 class="h4 mb-3">Dodaj opinię o kupionym produkcie</h2>
+
+            @if (TempData["OpiniaDodana"] != null)
+            {
+                <div class="alert alert-success">@TempData["OpiniaDodana"]</div>
+            }
+
+            @if (TempData["OpiniaBlad"] != null)
+            {
+                <div class="alert alert-danger">@TempData["OpiniaBlad"]</div>
+            }
+
+            <form asp-controller="Koszyk" asp-action="DodajOpiniePoZakupie" method="post">
+                <input type="hidden" name="zamowienieId" value="@Model.IdZamowienie" />
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label for="TowarId" class="form-label">Produkt</label>
+                        <select id="TowarId" name="TowarId" class="form-select" required>
+                            @foreach (var pozycja in Model.Pozycje)
+                            {
+                                <option value="@pozycja.TowarId">@pozycja.Towar?.Nazwa</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label for="Imie" class="form-label">Imię</label>
+                        <input id="Imie" name="Imie" class="form-control" maxlength="60" value="@Model.Imie" required />
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label for="Email" class="form-label">E-mail</label>
+                        <input id="Email" name="Email" type="email" class="form-control" maxlength="256" value="@Model.Email" />
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label for="Ocena" class="form-label">Ocena</label>
+                        <select id="Ocena" name="Ocena" class="form-select">
+                            <option value="5">5 - bardzo dobry</option>
+                            <option value="4">4 - dobry</option>
+                            <option value="3">3 - średni</option>
+                            <option value="2">2 - słaby</option>
+                            <option value="1">1 - bardzo słaby</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="Tresc" class="form-label">Treść opinii</label>
+                        <textarea id="Tresc" name="Tresc" class="form-control" rows="4" maxlength="1000" required></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary d-inline-flex align-items-center gap-2 mt-3">
+                    <i class="bi bi-send"></i>
+                    Wyślij opinię
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

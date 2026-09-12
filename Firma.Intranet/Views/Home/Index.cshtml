@@ -1,72 +1,75 @@
-﻿@model Firma.Intranet.Models.HomeStatsViewModel
+@model Firma.Intranet.Models.HomeStatsViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
+<div class="hero hero-bleed d-flex align-items-center justify-content-center">
+    <div>
+        <div class="container mb-4">
+            <div class="row g-2">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card bg-body-tertiary text-body">
+                        <div class="card-body">
+                            <h6 class="card-title mb-0">Ilość stron</h6>
+                            <div class="display-6">@Model.StronyCount</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card bg-body-tertiary text-body">
+                        <div class="card-body">
+                            <h6 class="card-title mb-0">Ilość aktualności</h6>
+                            <div class="display-6">@Model.AktualnosciCount</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card bg-body-tertiary text-body">
+                        <div class="card-body">
+                            <h6 class="card-title mb-0">Ilość towarów</h6>
+                            <div class="display-6">@Model.TowaryCount</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div class="container mb-4">
-    <div class="row g-2">
-        <div class="col-12 col-sm-6 col-md-4">
-            <div class="card bg-body-tertiary text-body">
-                <div class="card-body">
-                    <h6 class="card-title mb-0">Ilość stron</h6>
-                    <div class="display-6">@Model.StronyCount</div>
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                    <div class="card h-100 bg-body-tertiary text-body">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Strony</h5>
+                            <p class="card-text">Zarządzaj podstronami serwisu – twórz nowe treści, edytuj istniejące oraz kontroluj strukturę strony.</p>
+                            <a href="#" class="btn btn-primary mt-auto">Dodaj nową stronę</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4">
-            <div class="card bg-body-tertiary text-body">
-                <div class="card-body">
-                    <h6 class="card-title mb-0">Ilość aktualności</h6>
-                    <div class="display-6">@Model.AktualnosciCount</div>
+                <div class="col-12 col-sm-6">
+                    <div class="card h-100 bg-body-tertiary text-body">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Aktualności</h5>
+                            <p class="card-text">Dodawaj i publikuj aktualności dla użytkowników – informuj o zmianach, wydarzeniach i nowościach.</p>
+                            <a href="#" class="btn btn-primary mt-auto">Dodaj aktualność</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4">
-            <div class="card bg-body-tertiary text-body">
-                <div class="card-body">
-                    <h6 class="card-title mb-0">Ilość towarów</h6>
-                    <div class="display-6">@Model.TowaryCount</div>
+                <div class="col-12 col-sm-6">
+                    <div class="card h-100 bg-body-tertiary text-body">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Rodzaje</h5>
+                            <p class="card-text">Twórz i zarządzaj kategoriami produktów – uporządkuj ofertę i ułatw nawigację w systemie.</p>
+                            <a href="#" class="btn btn-primary mt-auto">Dodaj produkt</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row g-3">
-        <div class="col-12 col-sm-6">
-            <div class="card h-100 bg-body-tertiary text-body">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Strony</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Dodaj nową stronę</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6">
-            <div class="card h-100 bg-body-tertiary text-body">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Aktualności</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Dodaj aktualność</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6">
-            <div class="card h-100 bg-body-tertiary text-body">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Rodzaje</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Dodaj produkt</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6">
-            <div class="card h-100 bg-body-tertiary text-body">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Towary</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Zarządzaj kategoriami</a>
+                <div class="col-12 col-sm-6">
+                    <div class="card h-100 bg-body-tertiary text-body">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Towary</h5>
+                            <p class="card-text">Zarządzaj produktami w systemie – dodawaj nowe, edytuj dane oraz kontroluj ceny i dostępność.</p>
+                            <a href="#" class="btn btn-primary mt-auto">Zarządzaj kategoriami</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

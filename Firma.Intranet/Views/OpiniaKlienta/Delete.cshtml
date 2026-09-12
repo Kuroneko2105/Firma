@@ -1,0 +1,23 @@
+@model Firma.Data.Data.Uzytkownicy.OpiniaKlienta
+
+@{
+    ViewData["Title"] = "Usun opinie";
+}
+
+<div class="alert alert-danger">
+    <h2 class="h4">Czy na pewno usunac te opinie?</h2>
+    <p class="mb-0">Tej operacji nie bedzie mozna cofnac.</p>
+</div>
+
+<div class="card bg-body-tertiary shadow">
+    <div class="card-body">
+        <h3 class="h5">@Model.Imie</h3>
+        <p class="text-muted mb-2">Produkt: @Model.Towar?.Nazwa</p>
+        <p>@Model.Tresc</p>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="IdOpinii" />
+            <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Usun</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Anuluj</a>
+        </form>
+    </div>
+</div>

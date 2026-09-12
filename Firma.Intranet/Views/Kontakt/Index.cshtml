@@ -1,0 +1,47 @@
+@model IEnumerable<Firma.Data.Data.Kontakt.Kontakt>
+
+@{
+    ViewData["Title"] = "Kontakt";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Kontakt</li>
+    </ol>
+</nav>
+
+<h2>Kontakt</h2>
+<p class="text-muted">
+    Liczba kontaktów: <strong>@Model.Count()</strong>
+</p>
+
+<div class="card bg-body-tertiary shadow">
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>E-mail</th>
+                    <th>Wiadomość</th>
+                    <th>Data</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Email</td>
+                        <td>@(item.Wiadomosc.Length > 100 ? item.Wiadomosc.Substring(0, 100) + "..." : item.Wiadomosc)</td>
+                        <td>@item.DataDodania.ToLocalTime().ToString("g")</td>
+                        <td>
+                            <a asp-controller="Kontakt" asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Szczegóły</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

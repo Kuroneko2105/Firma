@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using Firma.Data.Data.Uzytkownicy;
 
 namespace Firma.Data.Data.Sklep
 {
@@ -21,7 +22,7 @@ namespace Firma.Data.Data.Sklep
         [Column(TypeName = "money")]
         public decimal Cena { get; set; }
 
-        [Required(ErrorMessage = "Zdjęcie jest wyamgane")]
+        [Required(ErrorMessage = "Zdjęcie jest wymagane")]
         [Display(Name = "Wybierz zdjęcie")]
         public required string FotoUrl { get; set; }
         public string Opis { get; set; } = string.Empty;
@@ -29,5 +30,6 @@ namespace Firma.Data.Data.Sklep
         [ForeignKey("Rodzaj")]
         public int IdRodzaju { get; set; }
         public Rodzaj? Rodzaj { get; set; }
+        public ICollection<OpiniaKlienta> Opinie { get; set; } = new List<OpiniaKlienta>();
     }
 }

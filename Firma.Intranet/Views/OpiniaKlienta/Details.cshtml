@@ -1,0 +1,39 @@
+@model Firma.Data.Data.Uzytkownicy.OpiniaKlienta
+
+@{
+    ViewData["Title"] = "Szczegoly opinii";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index">Opinie klientow</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Szczegoly</li>
+    </ol>
+</nav>
+
+<div class="card bg-body-tertiary shadow">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+            <div>
+                <h2 class="mb-1">@Model.Imie</h2>
+                <p class="text-muted mb-0">@Model.Email</p>
+            </div>
+            <span class="badge text-bg-warning fs-6">@Model.Ocena / 5</span>
+        </div>
+        <p class="lead">@Model.Tresc</p>
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Produkt</dt>
+            <dd class="col-sm-9">@Model.Towar?.Nazwa</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@(Model.CzyZatwierdzona ? "Zatwierdzona" : "Robocza")</dd>
+            <dt class="col-sm-3">Data dodania</dt>
+            <dd class="col-sm-9">@Model.DataDodania.ToString("dd.MM.yyyy HH:mm")</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model.IdOpinii" class="btn btn-outline-primary"><i class="bi bi-pencil"></i> Edytuj</a>
+    <a asp-action="Index" class="btn btn-outline-secondary">Wroc do listy</a>
+</div>

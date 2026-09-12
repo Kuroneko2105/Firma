@@ -1,0 +1,51 @@
+@model Firma.Data.Data.CMS.LayoutLink
+
+@{
+    ViewData["Title"] = "Edytuj link layoutu";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card bg-body-tertiary shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="h3 mb-3">Edytuj link stopki</h1>
+
+                    <form asp-action="EditLink" asp-route-id="@Model.IdLayoutLink" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input type="hidden" asp-for="IdLayoutLink" />
+
+                        <div class="mb-3">
+                            <label asp-for="Tytul" class="form-label"></label>
+                            <input asp-for="Tytul" class="form-control" />
+                            <span asp-validation-for="Tytul" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Url" class="form-label"></label>
+                            <input asp-for="Url" class="form-control" />
+                            <span asp-validation-for="Url" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Pozycja" class="form-label"></label>
+                            <input asp-for="Pozycja" class="form-control" />
+                            <span asp-validation-for="Pozycja" class="text-danger"></span>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input asp-for="CzyAktywny" class="form-check-input" />
+                            <label asp-for="CzyAktywny" class="form-check-label"></label>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Zapisz</button>
+                            <a asp-action="Index" class="btn btn-link">Wróć</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

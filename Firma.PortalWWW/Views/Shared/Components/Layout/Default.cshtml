@@ -1,0 +1,81 @@
+@model Firma.PortalWWW.Models.LayoutViewModel
+
+<footer class="mt-5 pt-5 border-top bg-body">
+    <div class="container">
+        <div class="row g-4 text-center text-md-start">
+            <div class="col-12 col-md-4">
+                <h5 class="fw-bold">O nas</h5>
+                <p class="text-muted small">@Model.Ustawienia.OpisStopki</p>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <h5 class="fw-bold">Kontakt</h5>
+                <ul class="list-unstyled text-muted small">
+                    @if (!string.IsNullOrWhiteSpace(Model.Ustawienia.Telefon))
+                    {
+                        <li class="mb-2">
+                            <i class="bi bi-telephone me-2"></i>@Model.Ustawienia.Telefon
+                        </li>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Ustawienia.Email))
+                    {
+                        <li class="mb-2">
+                            <i class="bi bi-envelope me-2"></i>@Model.Ustawienia.Email
+                        </li>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Ustawienia.Adres))
+                    {
+                        <li>
+                            <i class="bi bi-building me-2"></i>@Model.Ustawienia.Adres
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <h5 class="fw-bold">Szybkie linki</h5>
+
+                <div class="d-flex flex-column gap-2 small">
+                    @foreach (var strona in Model.Strony)
+                    {
+                        var linkLower = (strona.LinkTytul ?? string.Empty).ToLowerInvariant();
+                        var titleLower = (strona.Tytul ?? string.Empty).ToLowerInvariant();
+
+                        if (linkLower.Contains("aktual") || titleLower.Contains("aktual"))
+                        {
+                            <a asp-controller="Aktualnosc" asp-action="Index" class="text-muted text-decoration-none">@strona.LinkTytul</a>
+                        }
+                        else if (linkLower.Contains("sklep") || titleLower.Contains("sklep"))
+                        {
+                            <a asp-controller="Sklep" asp-action="Index" class="text-muted text-decoration-none">@strona.LinkTytul</a>
+                        }
+                        else if (linkLower.Contains("kontakt") || titleLower.Contains("kontakt"))
+                        {
+                            <a asp-controller="Kontakt" asp-action="Index" class="text-muted text-decoration-none">@strona.LinkTytul</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Home" asp-action="Index" asp-route-id="@strona.IdStrony" class="text-muted text-decoration-none">@strona.LinkTytul</a>
+                        }
+                    }
+
+                    @foreach (var link in Model.Linki)
+                    {
+                        <a href="@link.Url" class="text-muted text-decoration-none">@link.Tytul</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <div class="row text-center small text-muted">
+            <div class="col-12 col-md-6">
+                &copy; @Model.Ustawienia.Copyright
+            </div>
+            <div class="col-12 col-md-6">
+                @Model.Ustawienia.TekstKoncowy
+            </div>
+        </div>
+    </div>
+</footer>

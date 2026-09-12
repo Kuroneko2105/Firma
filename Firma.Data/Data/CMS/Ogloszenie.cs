@@ -25,5 +25,10 @@ namespace Firma.Data.Data.CMS
         [Column(TypeName = "nvarchar(MAX)")]
         [Required(ErrorMessage = "Treść ogłoszenia jest wymagana")]
         public required string Tresc { get; set; }
+
+        [Display(Name = "Zdjęcie")]
+        [MaxLength(200, ErrorMessage = "Link do zdjęcia powinien mieć maksymalnie 200 znaków")]
+        [Column(TypeName = "nvarchar(200)")]
+        public string? ZdjecieUrl { get; set; }
     }
 }

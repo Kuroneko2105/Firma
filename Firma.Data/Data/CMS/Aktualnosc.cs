@@ -29,5 +29,10 @@ namespace Firma.Data.Data.CMS
         [Required(ErrorMessage = "Pozycja jest wymagana")]
         [Display(Name = "Pozycja wyświetlania aktualności")]
         public int Pozycja { get; set; }
+
+        [Display(Name = "Zdjęcie")]
+        [MaxLength(200, ErrorMessage = "Link do zdjęcia powinien mieć maksymalnie 200 znaków")]
+        [Column(TypeName = "nvarchar(200)")]
+        public string? ZdjecieUrl { get; set; }
     }
 }

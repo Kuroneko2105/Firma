@@ -1,0 +1,98 @@
+@model IEnumerable<Firma.PortalWWW.Models.KoszykItem>
+@{
+    ViewData["Title"] = "Koszyk";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var suma = Model.Sum(p => p.Wartosc);
+}
+
+<div class="container py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <h1 class="h2 mb-1">Koszyk</h1>
+            <p class="text-muted mb-0">Produkty wybrane do zamowienia.</p>
+        </div>
+        <a asp-controller="Sklep" asp-action="Index" class="btn btn-outline-primary d-inline-flex align-items-center gap-2">
+            <i class="bi bi-arrow-left"></i>
+            Wroc do sklepu
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="card bg-body-tertiary shadow-sm">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-cart fs-1 text-muted"></i>
+                <h2 class="h4 mt-3">Koszyk jest pusty</h2>
+                <p class="text-muted mb-4">Dodaj pierwszy produkt z listy towarow.</p>
+                <a asp-controller="Sklep" asp-action="Index" class="btn btn-primary">Przejdz do sklepu</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card bg-body-tertiary shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Produkt</th>
+                                <th class="text-center">Ilosc</th>
+                                <th class="text-end">Cena</th>
+                                <th class="text-end">Wartosc</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            @if (!string.IsNullOrEmpty(item.FotoUrl))
+                                            {
+                                                <img src="~/content/@item.FotoUrl" alt="@item.Nazwa" class="cart-item-img object-fit-cover rounded" />
+                                            }
+                                            <div>
+                                                <div class="fw-semibold">@item.Nazwa</div>
+                                                <a asp-controller="Sklep" asp-action="Szczegoly" asp-route-id="@item.IdTowaru" class="small text-decoration-none">Zobacz szczegoly</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">@item.Ilosc</td>
+                                    <td class="text-end">@string.Format("{0:F2}", item.Cena) zl</td>
+                                    <td class="text-end fw-semibold">@string.Format("{0:F2}", item.Wartosc) zl</td>
+                                    <td class="text-end">
+                                        <form asp-controller="Koszyk" asp-action="Usun" method="post">
+                                            <input type="hidden" name="id" value="@item.IdTowaru" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Usun z koszyka">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mt-4">
+            <form asp-controller="Koszyk" asp-action="Wyczysc" method="post">
+                <button type="submit" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-x-circle"></i>
+                    Wyczysc koszyk
+                </button>
+            </form>
+            <div class="text-md-end">
+                <div class="text-muted">Razem</div>
+                <div class="display-6 text-primary">@string.Format("{0:F2}", suma) zl</div>
+                <a asp-controller="Koszyk" asp-action="Zamowienie" class="btn btn-success btn-lg d-inline-flex align-items-center gap-2 mt-3">
+                    <i class="bi bi-bag-check"></i>
+                    Złóż zamówienie
+                </a>
+            </div>
+        </div>
+    }
+</div>

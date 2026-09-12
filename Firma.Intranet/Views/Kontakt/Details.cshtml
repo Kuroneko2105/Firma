@@ -1,0 +1,36 @@
+@model Firma.Data.Data.Kontakt.Kontakt
+
+@{
+    ViewData["Title"] = "Kontakt - szczegóły";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Kontakt" asp-action="Index">Kontakt</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Szczegóły</li>
+    </ol>
+</nav>
+
+<h2>Szczegóły wiadomości</h2>
+
+<div class="card bg-body-tertiary shadow">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Id</dt>
+            <dd class="col-sm-9">@Model.Id</dd>
+
+            <dt class="col-sm-3">E-mail</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">Wiadomość</dt>
+            <dd class="col-sm-9">@Model.Wiadomosc</dd>
+
+            <dt class="col-sm-3">Data dodania</dt>
+            <dd class="col-sm-9">@Model.DataDodania.ToLocalTime().ToString("g")</dd>
+        </dl>
+
+        <a asp-controller="Kontakt" asp-action="Index" class="btn btn-secondary">Powrót</a>
+    </div>
+</div>

@@ -1,13 +1,3 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -30,14 +20,6 @@ body {
   text-align: start;
 }
 
-/* Make navbar links follow the Bootstrap theme (data-bs-theme) colors */
-.navbar .nav-link {
-  color: var(--bs-body-color);
-}
-.navbar .nav-link:hover, .navbar .nav-link:focus {
-  color: var(--bs-body-color);
-  opacity: 0.85;
-}
 .hero {
-    min-height: 65vh !important;
+    min-height: 60vh !important;
 }

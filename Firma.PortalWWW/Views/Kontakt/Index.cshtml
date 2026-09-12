@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center mb-4">Kontakt</h1>
+
+@model Firma.Data.Data.Kontakt.Kontakt
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card bg-body-tertiary mx-auto">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Napisz do nas</h3>
+                    <form asp-controller="Kontakt" asp-action="Submit" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Wiadomosc" class="form-label"></label>
+                            <textarea asp-for="Wiadomosc" class="form-control" rows="6"></textarea>
+                            <span asp-validation-for="Wiadomosc" class="text-danger"></span>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Wyślij</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_ValidationScriptsPartial")

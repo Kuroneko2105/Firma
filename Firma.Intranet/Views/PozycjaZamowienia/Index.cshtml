@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Firma.Data.Data.Sklep.PozycjaZamowienia>
+
+@{
+    ViewData["Title"] = "Pozycje zamówienia";
+    int? zamowienieId = ViewBag.ZamowienieId as int?;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Zamowienie" asp-action="Index">Zamówienia</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Pozycje</li>
+    </ol>
+</nav>
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+    <div>
+        <h2 class="mb-1">Pozycje zamówienia</h2>
+        @if (zamowienieId != null)
+        {
+            <p class="text-muted mb-0">Filtrowanie dla zamówienia #@zamowienieId</p>
+        }
+    </div>
+    @if (zamowienieId != null)
+    {
+        <a asp-controller="Zamowienie" asp-action="Details" asp-route-id="@zamowienieId" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Wróć do zamówienia
+        </a>
+    }
+</div>
+
+<p class="text-muted">
+    Liczba pozycji: <strong>@Model.Count()</strong>
+</p>
+
+<p>
+    <a asp-action="Create" asp-route-zamowienieId="@zamowienieId" class="btn btn-success d-inline-flex align-items-center gap-2">
+        <i class="bi bi-plus-lg"></i>
+        Dodaj pozycję
+    </a>
+</p>
+
+<div class="card bg-body-tertiary shadow">
+    <div class="card-body">
+
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.IdPozycja)</th>
+                    <th>Towar</th>
+                    <th>@Html.DisplayNameFor(model => model.Ilosc)</th>
+                    <th>@Html.DisplayNameFor(model => model.Cena)</th>
+                    <th>Wartość</th>
+                    <th class="text-end">Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.IdPozycja</td>
+
+                        <td>
+                            <span class="fw-semibold">
+                                @item.Towar?.Nazwa
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-primary">
+                                @item.Ilosc
+                            </span>
+                        </td>
+
+                        <td>
+                            @item.Cena.ToString("0.00") zł
+                        </td>
+
+                        <td class="fw-bold">
+                            @((item.Ilosc * item.Cena).ToString("0.00")) zł
+                        </td>
+
+                        <td class="text-end">
+                            <div class="btn-group" role="group">
+                                <a asp-action="Edit" asp-route-id="@item.IdPozycja" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.IdPozycja" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.IdPozycja" class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

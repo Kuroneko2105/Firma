@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Firma.Data.Data.Sklep.Zamowienie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Zamówienia</li>
+    </ol>
+</nav>
+
+<h2>Zamówienia</h2>
+
+<p class="text-muted">
+    Liczba zamówień: <strong>@Model.Count()</strong>
+</p>
+
+<p>
+    <a asp-action="Create" class="btn btn-success d-inline-flex align-items-center gap-2">
+        <i class="bi bi-plus-lg"></i>
+        Dodaj nowe
+    </a>
+</p>
+
+<div class="card bg-body-tertiary shadow">
+    <div class="card-body">
+
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.IdZamowienie)</th>
+                    <th>@Html.DisplayNameFor(model => model.Suma)</th>
+                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                    <th>@Html.DisplayNameFor(model => model.DataZamowienia)</th>
+                    <th class="text-end">Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.IdZamowienie)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Suma)</td>
+                        <td>
+                            <span class="badge bg-secondary">
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </span>
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.DataZamowienia)</td>
+                        <td class="text-end">
+                            <div class="btn-group" role="group">
+                                <a asp-action="Edit" asp-route-id="@item.IdZamowienie" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.IdZamowienie" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-controller="PozycjaZamowienia" asp-action="Index" asp-route-zamowienieId="@item.IdZamowienie" class="btn btn-outline-info btn-sm" title="Pozycje zamówienia">
+                                    <i class="bi bi-list-ul"></i>
+                                </a>
+                                <a asp-controller="Platnosc" asp-action="Index" asp-route-zamowienieId="@item.IdZamowienie" class="btn btn-outline-success btn-sm" title="Płatności">
+                                    <i class="bi bi-credit-card"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.IdZamowienie" class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

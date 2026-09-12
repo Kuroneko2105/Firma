@@ -12,7 +12,7 @@ namespace Firma.Data.Data.CMS
         public int IdStrony { get; set; }
 
         [Required(ErrorMessage = "Tytuł linku jest wymagany")]//pole wymagane
-        [MaxLength(10, ErrorMessage = "Tytuł powinien zawierac max 10 znaków")]
+        [MaxLength(15, ErrorMessage = "Tytuł powinien zawierac max 15 znaków")]
         [Display(Name = "Tytuł odnośnika")]//to jest nazwa pola dla zwyklego uzytkownika, jak jest rozna jak nazwa nizej
         public required string LinkTytul { get; set; }
 

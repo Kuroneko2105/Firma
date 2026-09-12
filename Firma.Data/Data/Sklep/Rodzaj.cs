@@ -15,7 +15,6 @@ namespace Firma.Data.Data.Sklep
         public required string Nazwa { get; set; }
 
         public string Opis { get; set; } = string.Empty;
-        //to jest powiazanie tabel, rodzaj ma kolekcje towarow danego rodzaju
         public ICollection<Towar> Towar { get; } = new List<Towar>();
     }
 }

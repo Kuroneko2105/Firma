@@ -27,7 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    const saved = localStorage.getItem("theme") || "light";
+    const defaultTheme = document.body.dataset.defaultTheme || "light";
+    const saved = localStorage.getItem("theme") || defaultTheme;
     setTheme(saved);
 
     btn.addEventListener("click", function () {

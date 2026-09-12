@@ -1,41 +1,130 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+@using Microsoft.EntityFrameworkCore
+@inject Firma.Data.Data.FirmaContext LayoutContext
+@{
+    var ustawieniaLayoutu = await LayoutContext.LayoutUstawienia.FirstOrDefaultAsync() ?? new Firma.Data.Data.CMS.LayoutUstawienia();
+    var logoUrl = ustawieniaLayoutu.LogoUrl ?? "";
+    var logoSrc = logoUrl.StartsWith("http://", System.StringComparison.OrdinalIgnoreCase)
+        || logoUrl.StartsWith("https://", System.StringComparison.OrdinalIgnoreCase)
+        || logoUrl.StartsWith("/")
+            ? logoUrl
+            : Url.Content($"~/content/{logoUrl.TrimStart('~', '/')}");
+    var wybranaWielkoscCzcionki = string.IsNullOrWhiteSpace(ustawieniaLayoutu.WielkoscCzcionki)
+        ? "normal"
+        : ustawieniaLayoutu.WielkoscCzcionki;
+    var wybranyKolorCzcionki = string.IsNullOrWhiteSpace(ustawieniaLayoutu.KolorCzcionki)
+        ? "body"
+        : ustawieniaLayoutu.KolorCzcionki;
+    var wybranyKolorPrzyciskow = string.IsNullOrWhiteSpace(ustawieniaLayoutu.KolorPrzyciskow)
+        ? "primary"
+        : ustawieniaLayoutu.KolorPrzyciskow;
+    var fontSize = wybranaWielkoscCzcionki switch
+    {
+        "small" => "0.95rem",
+        "large" => "1.1rem",
+        _ => "1rem"
+    };
+    var fontColor = wybranyKolorCzcionki == "body"
+        ? "var(--bs-body-color)"
+        : $"var(--bs-{wybranyKolorCzcionki})";
+    var buttonColor = wybranyKolorPrzyciskow;
+}
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sklep</title>
+    <title>@ViewData["Title"] - Firma.PortalWWW</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Firma.PortalWWW.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/test.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+        body.portal-layout-custom {
+            font-size: @fontSize;
+            color: @fontColor;
+        }
+
+        body.portal-layout-custom .btn-primary,
+        body.portal-layout-custom .btn-success {
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bs-@buttonColor);
+            --bs-btn-border-color: var(--bs-@buttonColor);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: color-mix(in srgb, var(--bs-@buttonColor) 85%, black);
+            --bs-btn-hover-border-color: color-mix(in srgb, var(--bs-@buttonColor) 80%, black);
+            --bs-btn-active-color: var(--bs-white);
+            --bs-btn-active-bg: color-mix(in srgb, var(--bs-@buttonColor) 80%, black);
+            --bs-btn-active-border-color: color-mix(in srgb, var(--bs-@buttonColor) 75%, black);
+        }
+
+        body.portal-layout-custom .btn-outline-primary,
+        body.portal-layout-custom .btn-outline-secondary {
+            --bs-btn-color: var(--bs-@buttonColor);
+            --bs-btn-border-color: var(--bs-@buttonColor);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: var(--bs-@buttonColor);
+            --bs-btn-hover-border-color: var(--bs-@buttonColor);
+            --bs-btn-active-color: var(--bs-white);
+            --bs-btn-active-bg: var(--bs-@buttonColor);
+            --bs-btn-active-border-color: var(--bs-@buttonColor);
+        }
+    </style>
 </head>
-<body>
+<body class="portal-layout-custom" data-default-theme="@ustawieniaLayoutu.DomyslnyMotyw">
+    @{
+        var liczbaProduktowWKoszyku = Context.Session.GetInt32("KoszykIlosc") ?? 0;
+    }
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Logo</a>
+        <nav class="navbar navbar-expand-sm bg-body">
+            <div class="container">
+                <a class="navbar-brand d-inline-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
+                    @if (!string.IsNullOrWhiteSpace(ustawieniaLayoutu.LogoUrl))
+                    {
+                        <img src="@logoSrc" alt="@ustawieniaLayoutu.LogoTekst" style="height:32px; width:auto;" />
+                    }
+                    <span>@ustawieniaLayoutu.LogoTekst</span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                @await Html.PartialAsync("RodzajeMenu", (IEnumerable<Firma.Data.Data.Sklep.Rodzaj>) ViewBag.Rodzaje) 
+                <div class="navbar-collapse collapse d-sm-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+                        @if (ViewBag.ModelStrony != null)
+                        {
+                            @await Html.PartialAsync("Odnosniki", (IEnumerable<Firma.Data.Data.CMS.Strona>)ViewBag.ModelStrony)
+                        }
+                        <li class="nav-item">
+                            <a asp-controller="Koszyk" asp-action="Index" class="btn btn-outline-primary d-flex align-items-center gap-2 me-2">
+                                <i class="bi bi-cart"></i>
+                                Koszyk
+                                <span class="badge text-bg-primary">@liczbaProduktowWKoszyku</span>
+                            </a>
+                        </li>
+                        <li>
+                            <button id="darkModeToggle" class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                                <span id="themeIcon">🌙</span>
+                                <span id="themeText">Dark Mode</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="hero hero-bleed">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Firma.PortalWWW - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+
+    @await Component.InvokeAsync("Layout")
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
